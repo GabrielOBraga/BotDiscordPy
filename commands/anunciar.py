@@ -10,6 +10,14 @@ class Anunciar(commands.Cog):
   @app_commands.command(name='anunciar', description="Encaminha um anuncio para o canal onde foi executado o comando.")
   @app_commands.guild_only()
   async def anunciar(self, interaction: discord.Interaction, *, mensagem: str):
+    bot_role = interaction.guild.me.top_role 
+    author_role = interaction.user.top_role
+
+    if author_role <= bot_role: 
+      await interaction.response.send_message( 
+        embed=discord.Embed(description="Você não tem permissão para usar este comando.", color=discord.Color.red()), ephemeral=True ) 
+      return
+  
     embed_message = discord.Embed(
         title="🚨 │ **Anuncio**",
         description=f"**{mensagem}**",
